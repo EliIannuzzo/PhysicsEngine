@@ -26,8 +26,8 @@ public:
 	void AddVelocity(vec3 velocity) { if (m_rigidBody != nullptr) m_rigidBody->AddVelocity(velocity); }
 	void AddMomentum(vec3 momentum) { if (m_rigidBody != nullptr) m_rigidBody->AddMomentum(momentum); }
 
-	   float GetMass() const { return m_rigidBody == nullptr ? numeric_limits<float>::max() : m_rigidBody->GetMass(); }
-	 Shape* GetShape() const { return m_shape.get(); }
+	float GetMass() const { return m_rigidBody == nullptr ? numeric_limits<float>::max() : m_rigidBody->GetMass(); }
+	Shape* GetShape() const { return m_shape.get(); }
 	vec3 GetVelocity() const { return m_rigidBody == nullptr ? vec3(0) : m_rigidBody->GetVelocity(); }
 	vec3 GetMomentum() const { return GetMass() * GetVelocity(); }
 	vec3 GetPosition() const { return m_position; }

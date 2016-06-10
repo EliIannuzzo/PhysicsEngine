@@ -1,15 +1,17 @@
+//The following maths used is from (https://github.com/johnsietsma).
 #include "Collision.h"
 #include "PhysicsObject.h"
 #include "Shapes\Sphere.h"
 #include "Shapes\AABB.h"
 #include "Shapes\Plane.h"
 
+
 bool Collision::Detect(PhysicsObject* _object1, PhysicsObject* _object2)
 {
 	int shape1_ID = _object1->GetShape()->GetShapeType();
 	int shape2_ID = _object2->GetShape()->GetShapeType();
 	
-	//Math to calculate the currect collision function(https://github.com/johnsietsma).
+	//Math to calculate the currect collision function.
 	int collisionFunctionIndex = shape1_ID * Shape::GetShapeCount() + shape2_ID;
 
 	switch (collisionFunctionIndex)
@@ -56,7 +58,7 @@ bool Collision::PointToPlane(vec3 _point, const Plane* _plane)
 // ----- Plane collisions -----
 bool Collision::PlaneToSphere(PhysicsObject* _object1, PhysicsObject* _object2)
 {
-
+	const auto sphere = _object1->GetShape<Sphere>();
 }
 
 bool Collision::PlaneToAABB(PhysicsObject* _object1, PhysicsObject* _object2)
