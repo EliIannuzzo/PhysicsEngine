@@ -8,7 +8,10 @@
 #include <PxPhysicsAPI.h>
 #include <PxScene.h>
 
+class PhysicsScene;
+
 using namespace physx;
+
 class Physics : public Application
 {
 public:
@@ -25,6 +28,9 @@ public:
 	void SetUpVisualDebugger();
 	void UpdatePhysx(float);
 
+	//Custom Physics
+	void SetUpPhysics();
+
     Renderer* m_renderer;
     FlyCamera m_camera;
     float m_delta_time;
@@ -38,6 +44,8 @@ public:
 	PxMaterial* g_PhysicsMaterial;
 	PxMaterial* g_boxMaterial;
 	PxCooking* g_PhysicsCooker;
+
+	PhysicsScene* m_physicsScene;
 
 };
 #endif //CAM_PROJ_H_

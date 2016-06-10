@@ -1,17 +1,28 @@
 #pragma once
 #include "../../Gizmos.h"
+#include "../../glm/glm.hpp"
+
+using namespace glm;
+
+
 
 class Shape
 {
 public:
-	Shape();
-	~Shape();
-
-	int GetShapeType();
-	virtual void Draw(vec3 position);
+	int GetShapeType() { return static_cast<int>(m_id); }
+	static int GetShapeCount() { return static_cast<int>(ShapeType::Count); }
+	virtual void Draw(vec3 position) = 0;
 
 protected:
-	enum class ShapeType { Plane, Sphere, AABB };
+	enum ShapeType
+	{
+		Plane,
+		Sphere,
+		AABB,
+		Count,
+	};
+
+	Shape(ShapeType id) : m_id(id) {}
 
 private:
 	ShapeType m_id;

@@ -168,7 +168,6 @@
     <ClInclude Include="tiny_obj_loader.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PhysicsEngine\Shapes\AABB.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="PhysicsEngine\Collision.cpp" />
@@ -178,13 +177,8 @@
     <ClCompile Include="ParticleEmitter.cpp" />
     <ClCompile Include="ParticleFluidEmitter.cpp" />
     <ClCompile Include="Physics.cpp" />
-    <ClCompile Include="PhysicsEngine\PhysicsObject.cpp" />
     <ClCompile Include="PhysicsEngine\PhysicsScene.cpp" />
-    <ClCompile Include="PhysicsEngine\Shapes\Plane.cpp" />
     <ClCompile Include="Renderer.cpp" />
-    <ClCompile Include="PhysicsEngine\RigidBody.cpp" />
-    <ClCompile Include="PhysicsEngine\Shapes\Shape.cpp" />
-    <ClCompile Include="PhysicsEngine\Shapes\Sphere.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

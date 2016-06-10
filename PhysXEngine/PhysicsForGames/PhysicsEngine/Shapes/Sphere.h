@@ -1,10 +1,22 @@
 #pragma once
-#include "C:\Users\eli.iannuzzo\Desktop\PhysXengine\PhysicsForGamesvs2015_Start\PhysicsForGames\PhysicsEngine\Shapes\Shape.h"
-class Sphere :
-	public Shape
+#include "Shape.h"
+
+class Sphere : public Shape
 {
 public:
-	Sphere();
-	~Sphere();
+	Sphere(float radius) : 
+		Shape(ShapeType::Sphere), 
+		m_radius(radius)
+	{}
+
+	float GetRadius() const { return m_radius; }
+
+	void Draw(vec3 position) override 
+	{ 
+		Gizmos::addSphereFilled(position, m_radius, 10, 10, vec4(0.5f, 0, 0, 1)); 
+	}
+
+private:
+	float m_radius;
 };
 

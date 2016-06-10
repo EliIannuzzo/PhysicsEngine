@@ -1,5 +1,6 @@
 #pragma once
 #include "../glm/glm.hpp"
+#include "Collision.h"
 #include <vector>
 
 class Shape;
@@ -15,27 +16,21 @@ public:
 	PhysicsScene();
 	~PhysicsScene();
 
-	void Update();
-	void Draw();
+	void Update(float _deltaTime);
+	void AddGizmos();
 
-	void AddPlaneStatic();
-	void AddSphereStatic();
-	void AddAABBStatic();
-
-	void AddPlaneDynamic();
-	void AddSphereDynamic();
-	void AddAABBDynamic();
+	void AddActor(PhysicsObject* _actorToAdd);
+	void RemoveActor(PhysicsObject* _actorToRemove);
+	
 
 private:
-	void AddPlane();
-	void AddSphere();
-	void AddAABB();
-
 	void CheckCollisions();
 
-	vec3 m_offset;
 	vec3 m_gravity;
-	vector <PhysicsObject> m_PhysicsObjects;
+	float m_timestep = 0;
+
+	vector <PhysicsObject*> m_actors;
+	Collision* m_collision;
 
 };
 
