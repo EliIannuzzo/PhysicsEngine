@@ -27,7 +27,5 @@ private:
 	static bool AABBToSphere(PhysicsObject* _object1, PhysicsObject* _object2);
 	static bool AABBToAABB(PhysicsObject* _object1, PhysicsObject* _object2);
 
-	void Seperate(PhysicsObject* _object1, PhysicsObject* _object2, float overlap, vec3 normal);
-	void Respond(PhysicsObject* _object1, PhysicsObject* _object2, float overlap, vec3 normal);
 };
 

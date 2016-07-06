@@ -1,7 +1,6 @@
 #pragma once
 #include <memory>
 
-#include "../glm/glm.hpp"
 #include "RigidBody.h"
 
 #include "Shapes\Plane.h"
@@ -22,6 +21,7 @@ public:
 	void Update(vec3 _gravity, float _deltaTime);
 	void MakeGizmos();
 
+	void AddPosition(vec3 positionDelta) { m_position += positionDelta; }
 	void AddForce(vec3 force) { if (m_rigidBody != nullptr) m_rigidBody->AddForce(force); }
 	void AddVelocity(vec3 velocity) { if (m_rigidBody != nullptr) m_rigidBody->AddVelocity(velocity); }
 	void AddMomentum(vec3 momentum) { if (m_rigidBody != nullptr) m_rigidBody->AddMomentum(momentum); }

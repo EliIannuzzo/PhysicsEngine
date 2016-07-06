@@ -2,14 +2,9 @@
 #include "RigidBody.h"
 #include "PhysicsObject.h"
 
-#include "Shapes\AABB.h"
-#include "Shapes\Plane.h"
-#include "Shapes\Sphere.h"
-
-
 PhysicsScene::PhysicsScene()
 {
-	m_collision = new Collision();
+	/*m_actors = vector<>*/
 }
 
 PhysicsScene::~PhysicsScene()
@@ -18,16 +13,16 @@ PhysicsScene::~PhysicsScene()
 
 void PhysicsScene::Update(float _deltaTime)
 {
-	CheckCollisions();
-	for (PhysicsObject* PysObj : m_actors)
+	for (auto& PysObj : m_actors)
 	{
 		PysObj->Update(m_gravity, _deltaTime);
 	}
+	CheckCollisions();
 }
 
 void PhysicsScene::AddGizmos()
 {
-	for (PhysicsObject* PysObj : m_actors)
+	for (auto& PysObj : m_actors)
 	{
 		PysObj->MakeGizmos();
 	}
@@ -47,7 +42,12 @@ void PhysicsScene::RemoveActor(PhysicsObject* _actorToRemove)
 	}
 }
 
+void PhysicsScene::SetGravity(vec3 _gravity)
+{
+	m_gravity = _gravity;
+}
+
 void PhysicsScene::CheckCollisions()
 {
-	m_collision
+
 }

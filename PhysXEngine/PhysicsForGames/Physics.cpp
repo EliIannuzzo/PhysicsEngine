@@ -7,8 +7,8 @@
 #include "glm/ext.hpp"
 #include "glm/gtc/quaternion.hpp"
 
-#include "PhysicsEngine\PhysicsScene.h"
-#include "PhysicsEngine\PhysicsObject.h"
+#include "PhysicsEngine/PhysicsScene.h"
+#include "PhysicsEngine/PhysicsObject.h"
 
 #define Assert(val) if (val){}else{ *((char*)0) = 0;}
 #define ArrayCount(val) (sizeof(val)/sizeof(val[0]))
@@ -290,10 +290,9 @@ void Physics::SetupTutorial1()
 void Physics::SetUpPhysics()
 {
 	m_physicsScene = new PhysicsScene();
-	m_physicsScene->m_gravity = vec3(0, -10, 0);
-	m_physicsScene->m_timestep = .001f;
+	m_physicsScene->SetGravity(vec3(0, -10, 0));
 
 	// Add actors to the scene.
 	PhysicsObject* newSphere;
-	newSphere = new PhysicsObject();
+	newSphere = new PhysicsObject(vec3(0,0,0), new Sphere(5), new RigidBody(1, vec3(0,0,0)));
 }

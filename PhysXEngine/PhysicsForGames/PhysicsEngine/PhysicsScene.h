@@ -1,5 +1,4 @@
 #pragma once
-#include "../glm/glm.hpp"
 #include "Collision.h"
 #include <vector>
 
@@ -21,16 +20,17 @@ public:
 
 	void AddActor(PhysicsObject* _actorToAdd);
 	void RemoveActor(PhysicsObject* _actorToRemove);
+
+	void SetGravity(vec3 _gravity);
 	
 
 private:
 	void CheckCollisions();
 
 	vec3 m_gravity;
-	float m_timestep = 0;
+	float m_timestep = .001f;
 
-	vector <PhysicsObject*> m_actors;
-	Collision* m_collision;
+	vector<PhysicsObject*> m_actors;
 
 };
 

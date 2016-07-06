@@ -5,7 +5,6 @@
 using namespace glm;
 
 
-
 class Shape
 {
 public:
