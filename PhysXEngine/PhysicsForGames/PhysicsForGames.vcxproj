@@ -80,7 +80,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <LibraryPath>.\lib\glfw;.\lib\physx;$(LibraryPath)</LibraryPath>
-    <IncludePath>./physx;$(IncludePath)</IncludePath>
+    <IncludePath>.\physx;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>

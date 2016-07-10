@@ -9,11 +9,11 @@ public:
 	Application();
 	virtual ~Application();
 
-	virtual bool startup();
-	virtual void shutdown();
+	virtual bool Startup();
+	virtual void Shutdown();
 
-	virtual bool update();
-	virtual void draw();
+	virtual bool Update();
+	virtual void Draw();
 	
     int window_width;
     int window_height;

@@ -13,7 +13,7 @@ void __stdcall DebugCallback(GLenum source, GLenum type, GLuint id, GLenum sever
 Application::Application(){}
 Application::~Application(){}
 
-bool Application::startup()
+bool Application::Startup()
 {
 	if (glfwInit() == false)
 	{
@@ -58,13 +58,13 @@ bool Application::startup()
 	return true;
 }
 
-void Application::shutdown()
+void Application::Shutdown()
 {
 	glfwDestroyWindow(this->m_window);
 	glfwTerminate();
 }
 
-bool Application::update() 
+bool Application::Update() 
 { 
 	if ( glfwWindowShouldClose(m_window) )
 	{
@@ -82,7 +82,7 @@ bool Application::update()
 	return true; 
 }
 
-void Application::draw() {}
+void Application::Draw() {}
 
 #if _DEBUG
 

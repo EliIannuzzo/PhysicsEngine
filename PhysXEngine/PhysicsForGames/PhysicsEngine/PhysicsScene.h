@@ -1,6 +1,7 @@
 #pragma once
 #include "Collision.h"
 #include <vector>
+#include <memory>
 
 class Shape;
 class RigidBody;
@@ -12,14 +13,13 @@ using namespace std;
 class PhysicsScene
 {
 public:
-	PhysicsScene();
-	~PhysicsScene();
+	PhysicsScene() : PhysicsScene(glm::vec3(0)) {}
+	PhysicsScene(glm::vec3 offset) : m_offset(offset) {}
 
 	void Update(float _deltaTime);
 	void AddGizmos();
 
 		void SetGravity(vec3 _gravity);
-		void RemoveActor(PhysicsObject* _actorToRemove);
 
 		void AddPlaneStatic(glm::vec3 normal, float distance);
 		void AddSphereStatic(glm::vec3 position, float radius);
@@ -37,6 +37,7 @@ private:
 	void AddActor(std::shared_ptr<PhysicsObject> pPhysicsObject);
 	void CheckCollisions();
 
+	vec3 m_offset;
 	vec3 m_gravity;
 	float m_timestep = .001f;
 	vector< std::shared_ptr<PhysicsObject> > m_actors;

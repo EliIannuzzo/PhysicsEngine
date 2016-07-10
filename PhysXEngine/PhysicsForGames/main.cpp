@@ -1,20 +1,20 @@
-#include "Physics.h"
+#include "PhysicsApplication.h"
 
 int main()
 {
-    Physics app;
+	PhysicsApplication app;
 
-    if (app.startup() == false)
+    if (app.Startup() == false)
     {
         return -1;
     }
 
-    while (app.update() == true)
+    while (app.Update() == true)
     {
         app.draw();
     }
 
-    app.shutdown();
+    app.Shutdown();
 
     return 0;
 }

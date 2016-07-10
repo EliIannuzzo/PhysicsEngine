@@ -16,9 +16,12 @@
 #include <functional>
 #include <PxPhysicsAPI.h>
 
+#define Assert(val) if (val){}else{ *((char*)0) = 0;}
+#define ArrayCount(val) (sizeof(val)/sizeof(val[0]))
+
 bool PhysicsApplication::Startup()
 {
-	if (Application::startup() == false)
+	if (Application::Startup() == false)
 		return false;
 
 	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
@@ -36,17 +39,27 @@ bool PhysicsApplication::Startup()
 	const float BorderHeight = 15;
 
 	//Add ground plane.
+	m_PhysicsScene->AddPlaneStatic(glm::vec3(0, 1, 0), 0);
+	CreateBoundary(m_PhysicsScene.get(), TableSize, BorderHeight);
+	CreateSpheres(m_PhysicsScene.get(), 20, 2);
+	CreateAABBs(m_PhysicsScene.get(), 20, 2.1f);
+
+	m_lastFrameTime = (float)glfwGetTime();
+	m_spawnTimer = 0;
+
+	return true;
+
 }
 
 void PhysicsApplication::Shutdown()
 {
 	Gizmos::destroy();
-	Application::shutdown();
+	Application::Shutdown();
 }
 
 bool PhysicsApplication::Update()
 {
-	if (Application::update() == false)
+	if (Application::Update() == false)
 	{
 		return false;
 	}

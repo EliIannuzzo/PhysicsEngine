@@ -30,7 +30,7 @@ public:
 
 bool Physics::startup()
 {
-    if (Application::startup() == false)
+    if (Application::Startup() == false)
     {
         return false;
     }
@@ -60,12 +60,12 @@ void Physics::shutdown()
 
 	delete m_renderer;
     Gizmos::destroy();
-    Application::shutdown();
+    Application::Shutdown();
 }
 
 bool Physics::update()
 {
-    if (Application::update() == false)
+    if (Application::Update() == false)
     {
         return false;
     }

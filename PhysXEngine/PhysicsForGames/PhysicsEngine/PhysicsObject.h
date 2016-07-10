@@ -16,8 +16,6 @@ public:
 	PhysicsObject(vec3 _position, Shape* _shape, RigidBody* _rigidBody = nullptr) : m_position(_position), m_shape(_shape), m_rigidBody(_rigidBody)
 	{}
 
-	~PhysicsObject();
-
 	void Update(vec3 _gravity, float _deltaTime) { if (m_rigidBody != nullptr) m_position += m_rigidBody->CalculatePositionDelta(_deltaTime, _gravity); }
 	void DrawGizmos() { m_shape->Draw(m_position); }
 
