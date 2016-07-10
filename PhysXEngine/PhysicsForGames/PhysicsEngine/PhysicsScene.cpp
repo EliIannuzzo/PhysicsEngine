@@ -4,6 +4,13 @@
 
 void PhysicsScene::Update(float _deltaTime)
 {
+	const float DampingCoeffecient = 0.2f;
+
+	for (auto& PysObj : m_actors)
+	{
+		PysObj->AddForce(DampingCoeffecient * -PysObj->GetVelocity() * _deltaTime);
+	}
+
 	for (auto& PysObj : m_actors)
 	{
 		PysObj->Update(m_gravity, _deltaTime);

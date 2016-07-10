@@ -39,7 +39,7 @@ bool PhysicsApplication::Startup()
 	const float BorderHeight = 15;
 
 	//Add ground plane.
-	m_PhysicsScene->AddPlaneStatic(glm::vec3(0, 1, 0), 0);
+	//m_PhysicsScene->AddPlaneStatic(glm::vec3(0, 1, 0), -30);
 	CreateBoundary(m_PhysicsScene.get(), TableSize, BorderHeight);
 	CreateSpheres(m_PhysicsScene.get(), 20, 2);
 	CreateAABBs(m_PhysicsScene.get(), 20, 2.1f);
@@ -104,7 +104,7 @@ bool PhysicsApplication::Update()
 	return true;
 }
 
-void PhysicsApplication::draw()
+void PhysicsApplication::Draw()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_CULL_FACE);

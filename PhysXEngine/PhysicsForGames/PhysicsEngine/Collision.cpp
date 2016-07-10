@@ -5,6 +5,10 @@
 void Seperate(PhysicsObject* _object1, PhysicsObject* _object2, float overlap, vec3 normal)
 {
 	float totalMass = _object1->GetMass() + _object2->GetMass();
+	if (totalMass < _object1->GetMass() || totalMass < _object2->GetMass())
+	{
+		totalMass = numeric_limits<float>::max();
+	}
 	float massRatio1 = _object1->GetMass() / totalMass;
 	float massRatio2 = _object2->GetMass() / totalMass;
 
@@ -25,8 +29,14 @@ void Respond(PhysicsObject* _object1, PhysicsObject* _object2, float overlap, ve
 	impuseAmount /= (1 / _object1->GetMass()) + (1 / _object2->GetMass());
 
 	vec3 impulse = impuseAmount * normal;
-	_object1->AddVelocity(1 / _object1->GetMass() * -impulse);
-	_object1->AddVelocity(1 / _object2->GetMass() * +impulse);
+	if (_object2->HasRigidbody())
+	{
+		_object2->AddVelocity(1 / _object1->GetMass() * -impulse);
+	}
+	if (_object1->HasRigidbody())
+	{
+		_object1->AddVelocity(1 / _object2->GetMass() * +impulse);
+	}
 }
 
 bool Collision::Detect(PhysicsObject* _object1, PhysicsObject* _object2)

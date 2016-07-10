@@ -11,7 +11,7 @@ int main()
 
     while (app.Update() == true)
     {
-        app.draw();
+        app.Draw();
     }
 
     app.Shutdown();

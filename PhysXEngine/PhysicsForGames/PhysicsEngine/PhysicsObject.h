@@ -29,7 +29,7 @@ public:
 	vec3 GetVelocity() const { return m_rigidBody == nullptr ? vec3(0) : m_rigidBody->GetVelocity(); }
 	vec3 GetMomentum() const { return GetMass() * GetVelocity(); }
 	vec3 GetPosition() const { return m_position; }
-
+	bool HasRigidbody() { return m_rigidBody != nullptr; }
 private:
 	vec3 m_position;
 	std::unique_ptr<Shape> m_shape;

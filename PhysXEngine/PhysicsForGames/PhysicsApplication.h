@@ -18,7 +18,7 @@ public:
 	virtual bool Startup();
 	virtual void Shutdown();
 	virtual bool Update();
-	virtual void draw();
+	virtual void Draw();
 
 	std::unique_ptr<PhysicsScene> m_PhysicsScene;
 	std::unique_ptr<Renderer> m_Renderer;
