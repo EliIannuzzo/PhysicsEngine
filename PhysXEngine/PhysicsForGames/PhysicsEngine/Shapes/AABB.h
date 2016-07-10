@@ -11,7 +11,7 @@ public:
 
 	vec3 GetSize() const { return m_size; }
 
-	void Draw(vec3 position) override
+	void Draw(vec3 position) const override
 	{
 		Gizmos::addAABBFilled(position, m_size, vec4(0, 0.5, 0, 1));
 	}

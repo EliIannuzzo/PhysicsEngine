@@ -4,7 +4,6 @@
 
 PhysicsScene::PhysicsScene()
 {
-	/*m_actors = vector<>*/
 }
 
 PhysicsScene::~PhysicsScene()
@@ -17,6 +16,7 @@ void PhysicsScene::Update(float _deltaTime)
 	{
 		PysObj->Update(m_gravity, _deltaTime);
 	}
+
 	CheckCollisions();
 }
 
@@ -24,7 +24,7 @@ void PhysicsScene::AddGizmos()
 {
 	for (auto& PysObj : m_actors)
 	{
-		PysObj->MakeGizmos();
+		PysObj->DrawGizmos();
 	}
 }
 

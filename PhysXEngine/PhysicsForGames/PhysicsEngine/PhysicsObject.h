@@ -18,8 +18,8 @@ public:
 
 	~PhysicsObject();
 
-	void Update(vec3 _gravity, float _deltaTime);
-	void MakeGizmos();
+	void Update(vec3 _gravity, float _deltaTime) { if (m_rigidBody != nullptr) m_position += m_rigidBody->CalculatePositionDelta(_deltaTime, _gravity); }
+	void DrawGizmos() { m_shape->Draw(m_position); }
 
 	void AddPosition(vec3 positionDelta) { m_position += positionDelta; }
 	void AddForce(vec3 force) { if (m_rigidBody != nullptr) m_rigidBody->AddForce(force); }

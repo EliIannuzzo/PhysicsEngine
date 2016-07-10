@@ -10,7 +10,7 @@ class Shape
 public:
 	int GetShapeType() { return static_cast<int>(m_id); }
 	static int GetShapeCount() { return static_cast<int>(ShapeType::Count); }
-	virtual void Draw(vec3 position) = 0;
+	virtual void Draw(vec3 position) const = 0;
 
 protected:
 	enum ShapeType

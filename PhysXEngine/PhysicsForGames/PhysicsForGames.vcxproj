@@ -178,6 +178,7 @@
     <ClCompile Include="ParticleFluidEmitter.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="PhysicsEngine\PhysicsScene.cpp" />
+    <ClCompile Include="PhysicsEngine\RigidBody.cpp" />
     <ClCompile Include="Renderer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

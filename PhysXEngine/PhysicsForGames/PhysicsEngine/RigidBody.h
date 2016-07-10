@@ -13,6 +13,8 @@ public:
 	vec3 GetVelocity() const { return m_velocity; }
 	vec3 GetMomentum() const { return GetMass() * GetVelocity(); }
 
+	vec3 CalculatePositionDelta(float deltaTime, glm::vec3 gravity);
+
 	void Stop() { m_velocity = vec3(0); }
 	void AddVelocity(vec3 velocity) { m_velocity += velocity; }
 	void AddMomentum(vec3 momentum) { AddVelocity(momentum / m_mass); }

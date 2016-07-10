@@ -13,7 +13,7 @@ public:
 	vec3 GetNormal() const { return m_normal; }
 	float GetDistance() const { return m_offset; }
 
-	void Draw(vec3 position) override
+	void Draw(vec3 position) const override
 	{
 		Gizmos::addAABBFilled(position, vec3(100.f, 0.f, 100.f), vec4(0.25f, 0.25f, 0.25f, 1));
 	}
