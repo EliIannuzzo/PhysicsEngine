@@ -148,6 +148,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="PhysicsApplication.h" />
     <ClInclude Include="PhysicsEngine\Shapes\AABB.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Camera.h" />
@@ -170,6 +171,7 @@
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="PhysicsApplication.cpp" />
     <ClCompile Include="PhysicsEngine\Collision.cpp" />
     <ClCompile Include="Gizmos.cpp" />
     <ClCompile Include="gl_core_4_4.c" />
