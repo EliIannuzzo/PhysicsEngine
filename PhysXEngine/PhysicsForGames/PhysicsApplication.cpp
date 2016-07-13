@@ -29,7 +29,7 @@ bool PhysicsApplication::Startup()
 	Gizmos::create();
 
 	m_Camera = FlyCamera(1280.0f / 720.0f, 10.0f);
-	m_Camera.setLookAt(vec3(50, 50, 50), vec3(0), vec3(0, 1, 0));
+	m_Camera.setLookAt(vec3(10, 10, 10), vec3(0), vec3(0, 1, 0));
 	m_Camera.sensitivity = 3;
 
 	m_Renderer = std::make_unique<Renderer>();
@@ -38,11 +38,10 @@ bool PhysicsApplication::Startup()
 	const float TableSize = 60;
 	const float BorderHeight = 15;
 
-	//Add ground plane.
-	//m_PhysicsScene->AddPlaneStatic(glm::vec3(0, 1, 0), -30);
-	CreateBoundary(m_PhysicsScene.get(), TableSize, BorderHeight);
-	CreateSpheres(m_PhysicsScene.get(), 20, 2);
-	CreateAABBs(m_PhysicsScene.get(), 20, 2.1f);
+	m_PhysicsScene->SetGravity(glm::vec3(0.0, -9.8, 0.0f));
+
+	m_PhysicsScene->AddAABBStatic(vec3(0, 0, 0), vec3(1, 1, 1));
+	m_PhysicsScene->AddSphereDynamic(vec3(0, 3, 0), 1, 5, vec3(0, 0, 0));
 
 	m_lastFrameTime = (float)glfwGetTime();
 	m_spawnTimer = 0;
@@ -69,22 +68,6 @@ bool PhysicsApplication::Update()
 	float currentTime = (float)glfwGetTime();
 	float deltaTime = currentTime - m_lastFrameTime;
 	m_lastFrameTime = currentTime;
-
-	m_spawnTimer += deltaTime;
-
-	if (m_spawnTimer > 0.5f) {
-		float velX = m_velocityDistribution(m_Generator);
-		float velY = m_velocityDistribution(m_Generator);
-		float velZ = m_velocityDistribution(m_Generator);
-
-		m_PhysicsScene->AddSphereDynamic(
-			glm::vec3(0, 3, 0),			// Position
-			1,							// Radius
-			1, glm::vec3(velX, velY, velZ)	// Mass, vel
-			);
-
-		m_spawnTimer = 0;
-	}
 
 	vec4 white(1);
 	vec4 black(0, 0, 0, 1);
@@ -147,6 +130,7 @@ void PhysicsApplication::CreateBoundary(PhysicsScene* pPhysicsScene, float table
 void PhysicsApplication::CreateSpheres(PhysicsScene* pPhysicsScene, int sphereCount, float spacing)
 {
 	auto randVel = std::bind(m_velocityDistribution, m_Generator);
+
 	for (int i = 0; i < sphereCount; i++) {
 		float mass = m_massDistribution(m_Generator);
 		pPhysicsScene->AddSphereDynamic(

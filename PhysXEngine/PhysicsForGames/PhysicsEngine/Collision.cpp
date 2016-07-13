@@ -14,8 +14,8 @@ void Seperate(PhysicsObject* _object1, PhysicsObject* _object2, float overlap, v
 
 	//Separation relative to the mass of the objects.
 	glm::vec3 separationVector = normal * overlap;
-	_object1->AddPosition(-separationVector * massRatio2);
-	_object2->AddPosition(separationVector * massRatio1);
+	_object1->AddPosition(separationVector * massRatio2);
+	_object2->AddPosition(-separationVector * massRatio1);
 }
 
 void Respond(PhysicsObject* _object1, PhysicsObject* _object2, float overlap, vec3 normal)
@@ -25,17 +25,17 @@ void Respond(PhysicsObject* _object1, PhysicsObject* _object2, float overlap, ve
 
 	vec3 relativeVelocity = _object2->GetVelocity() - _object1->GetVelocity();
 	float velocityAlongNormal = dot(relativeVelocity, normal);
-	float impuseAmount = -(1 - energyLoss) * velocityAlongNormal;
+	float impuseAmount = -(1 + energyLoss) * velocityAlongNormal;
 	impuseAmount /= (1 / _object1->GetMass()) + (1 / _object2->GetMass());
 
 	vec3 impulse = impuseAmount * normal;
 	if (_object2->HasRigidbody())
 	{
-		_object2->AddVelocity(1 / _object1->GetMass() * -impulse);
+		_object2->AddVelocity(1 / _object2->GetMass() * impulse);
 	}
 	if (_object1->HasRigidbody())
 	{
-		_object1->AddVelocity(1 / _object2->GetMass() * +impulse);
+		_object1->AddVelocity(1 / _object1->GetMass() * -impulse);
 	}
 }
 
