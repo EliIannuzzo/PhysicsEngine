@@ -165,6 +165,7 @@
     <ClInclude Include="PhysicsEngine\RigidBody.h" />
     <ClInclude Include="PhysicsEngine\Shapes\Shape.h" />
     <ClInclude Include="PhysicsEngine\Shapes\Sphere.h" />
+    <ClInclude Include="PhysicsEngine\Joints\SpringJoint.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="tiny_obj_loader.h" />
   </ItemGroup>
@@ -182,6 +183,7 @@
     <ClCompile Include="PhysicsEngine\PhysicsScene.cpp" />
     <ClCompile Include="PhysicsEngine\RigidBody.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="PhysicsEngine\Joints\SpringJoint.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

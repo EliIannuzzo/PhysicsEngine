@@ -2,6 +2,7 @@
 #include "PhysicsEngine\PhysicsScene.h"
 #include "PhysicsEngine\PhysicsObject.h"
 #include "PhysicsEngine\RigidBody.h"
+#include "PhysicsEngine\Joints\SpringJoint.h"
 
 #include "PhysicsEngine\Shapes\Shape.h"
 #include "PhysicsEngine\Shapes\Sphere.h"
@@ -38,16 +39,23 @@ bool PhysicsApplication::Startup()
 	const float TableSize = 60;
 	const float BorderHeight = 15;
 
+	// Epic Physics Showcase.
 	m_PhysicsScene->SetGravity(glm::vec3(0.0, -9.8, 0.0f));
 
-	m_PhysicsScene->AddAABBStatic(vec3(0, 0, 0), vec3(1, 1, 1));
-	m_PhysicsScene->AddSphereDynamic(vec3(0, 3, 0), 1, 5, vec3(0, 0, 0));
+	// Springs
+	auto sSphere = m_PhysicsScene->AddSphereStatic(vec3(0, 5, 0), 1); // static top.
+	auto dSphere = m_PhysicsScene->AddSphereDynamic(vec3(0, 0, 0), 1, 5, vec3(0, 0, 0));
+	m_PhysicsScene->AddSpring(sSphere, dSphere, 50, 10.0f, 10.0f);
 
+
+	// floor.
+	m_PhysicsScene->AddPlaneStatic(vec3(0, 1, 0), -1);
+
+	// setting up dt.
 	m_lastFrameTime = (float)glfwGetTime();
 	m_spawnTimer = 0;
 
 	return true;
-
 }
 
 void PhysicsApplication::Shutdown()
@@ -67,6 +75,9 @@ bool PhysicsApplication::Update()
 
 	float currentTime = (float)glfwGetTime();
 	float deltaTime = currentTime - m_lastFrameTime;
+
+	if (deltaTime > 0.25f) deltaTime = 0.25f;
+
 	m_lastFrameTime = currentTime;
 
 	vec4 white(1);

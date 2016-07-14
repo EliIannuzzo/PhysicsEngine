@@ -15,11 +15,11 @@ public:
 
 	void Draw(vec3 position) const override
 	{
-		Gizmos::addAABBFilled(position, vec3(100.f, 0.f, 100.f), vec4(0.25f, 0.25f, 0.25f, 1));
+		Gizmos::addAABBFilled(vec3(0, m_offset, 0), vec3(100.f, 0.01f, 100.f), vec4(0.25f, 0.25f, 0.25f, 1));
 	}
 
 private:
 	vec3 m_normal;
-	float m_offset;
+	float m_offset; //distance
 };
 

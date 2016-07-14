@@ -24,9 +24,5 @@ private:
 	float m_mass;
 	vec3 m_velocity;
 	vec3 m_force;
-
-
-
-
 };
 

@@ -13,11 +13,10 @@ using namespace std;
 class PhysicsObject
 {
 public:
-	PhysicsObject(vec3 _position, Shape* _shape, RigidBody* _rigidBody = nullptr) : m_position(_position), m_shape(_shape), m_rigidBody(_rigidBody)
-	{}
+	PhysicsObject(vec3 _position, Shape* _shape = nullptr, RigidBody* _rigidBody = nullptr) : m_position(_position), m_shape(_shape), m_rigidBody(_rigidBody)	{}
 
-	void Update(vec3 _gravity, float _deltaTime) { if (m_rigidBody != nullptr) m_position += m_rigidBody->CalculatePositionDelta(_deltaTime, _gravity); }
-	void DrawGizmos() { m_shape->Draw(m_position); }
+	virtual void Update(vec3 _gravity, float _deltaTime) { if (m_rigidBody != nullptr) m_position += m_rigidBody->CalculatePositionDelta(_deltaTime, _gravity); }
+	virtual void DrawGizmos() { if (m_shape) m_shape->Draw(m_position); }
 
 	void AddPosition(vec3 positionDelta) { m_position += positionDelta; }
 	void AddForce(vec3 force) { if (m_rigidBody != nullptr) m_rigidBody->AddForce(force); }
@@ -30,7 +29,7 @@ public:
 	vec3 GetMomentum() const { return GetMass() * GetVelocity(); }
 	vec3 GetPosition() const { return m_position; }
 	bool HasRigidbody() { return m_rigidBody != nullptr; }
-private:
+protected:
 	vec3 m_position;
 	std::unique_ptr<Shape> m_shape;
 	std::unique_ptr<RigidBody> m_rigidBody;

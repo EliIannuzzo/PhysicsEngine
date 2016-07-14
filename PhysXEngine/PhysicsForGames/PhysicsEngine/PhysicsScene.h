@@ -21,18 +21,20 @@ public:
 
 		void SetGravity(vec3 _gravity);
 
-		void AddPlaneStatic(glm::vec3 normal, float distance);
-		void AddSphereStatic(glm::vec3 position, float radius);
-		void AddAABBStatic(glm::vec3 position, glm::vec3 extents);
+		shared_ptr<PhysicsObject> AddPlaneStatic(glm::vec3 normal, float distance);
+		shared_ptr<PhysicsObject> AddSphereStatic(glm::vec3 position, float radius);
+		shared_ptr<PhysicsObject> AddAABBStatic(glm::vec3 position, glm::vec3 extents);
 
-		void AddPlaneDynamic(glm::vec3 normal, float distance, float mass, glm::vec3 velocity);
-		void AddSphereDynamic(glm::vec3 position, float radius, float mass, glm::vec3 velocity);
-		void AddAABBDynamic(glm::vec3 position, glm::vec3 extents, float mass, glm::vec3 velocity);
+		shared_ptr<PhysicsObject> AddPlaneDynamic(glm::vec3 normal, float distance, float mass, glm::vec3 velocity);
+		shared_ptr<PhysicsObject> AddSphereDynamic(glm::vec3 position, float radius, float mass, glm::vec3 velocity);
+		shared_ptr<PhysicsObject> AddAABBDynamic(glm::vec3 position, glm::vec3 extents, float mass, glm::vec3 velocity);
+
+		shared_ptr<PhysicsObject> AddSpring(shared_ptr<PhysicsObject> connection1, shared_ptr<PhysicsObject> connection2, float springCoefficient, float damping, float restingDistance = 0);
 
 private:
-		void AddPlane(glm::vec3 normal, float distance, RigidBody* pRigidBody = nullptr);
-		void AddSphere(glm::vec3 position, float radius, RigidBody* pRigidBody = nullptr);
-		void AddAABB(glm::vec3 position, glm::vec3 extents, RigidBody* pRigidBody = nullptr);
+		shared_ptr<PhysicsObject> AddPlane(glm::vec3 normal, float distance, RigidBody* pRigidBody = nullptr);
+		shared_ptr<PhysicsObject> AddSphere(glm::vec3 position, float radius, RigidBody* pRigidBody = nullptr);
+		shared_ptr<PhysicsObject> AddAABB(glm::vec3 position, glm::vec3 extents, RigidBody* pRigidBody = nullptr);
 
 	void AddActor(std::shared_ptr<PhysicsObject> pPhysicsObject);
 	void CheckCollisions();

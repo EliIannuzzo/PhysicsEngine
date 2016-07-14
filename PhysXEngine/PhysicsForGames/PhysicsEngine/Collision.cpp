@@ -41,6 +41,8 @@ void Respond(PhysicsObject* _object1, PhysicsObject* _object2, float overlap, ve
 
 bool Collision::Detect(PhysicsObject* _object1, PhysicsObject* _object2)
 {
+	if (_object1->GetShape() == nullptr || _object2->GetShape() == nullptr) return false;
+
 	int shape1_ID = _object1->GetShape()->GetShapeType();
 	int shape2_ID = _object2->GetShape()->GetShapeType();
 
@@ -105,10 +107,10 @@ bool Collision::PlaneToSphere(PhysicsObject* _planeObject, PhysicsObject* _spher
 
 	//If the plane distance and sphere radius are bigger then the distance along the normal.
 	//Then we overlap.
-	float overlap = sphereDistanceAlongPlaneNormal - (pPlane->GetDistance() + pSphere->GetRadius());
+	float overlap = sphereDistanceAlongPlaneNormal - pPlane->GetDistance() - pSphere->GetRadius();
 	if (overlap < 0)
 	{
-		Respond(_planeObject, _sphereObject, -overlap, planeNormal);
+		Respond(_planeObject, _sphereObject, overlap, planeNormal); 
 		return true;
 	}
 
@@ -132,7 +134,7 @@ bool Collision::PlaneToAABB(PhysicsObject* _planeObject, PhysicsObject* _AABBObj
 
 	if (overlap < 0)
 	{
-		Respond(_planeObject, _AABBObject, -overlap, pPlane->GetNormal());
+		Respond(_planeObject, _AABBObject, overlap, pPlane->GetNormal());
 		return true;
 	}
 
@@ -163,7 +165,7 @@ bool Collision::SphereToSphere(PhysicsObject* _sphereObject1, PhysicsObject* _sp
 
 	if (overlap < 0)
 	{
-		Respond(_sphereObject1, _sphereObject2, -overlap, glm::normalize(directionVector));
+		Respond(_sphereObject1, _sphereObject2, overlap, glm::normalize(directionVector));
 		return true;
 	}
 
@@ -250,7 +252,7 @@ bool Collision::AABBToAABB(PhysicsObject* _AABBObject1, PhysicsObject* _AABBObje
 		else if (yOverlap == minOverlap) separationNormal.y = std::signbit(boxDelta.y) ? -1.f : 1.f;
 		else if (zOverlap == minOverlap) separationNormal.z = std::signbit(boxDelta.z) ? -1.f : 1.f;
 
-		Respond(_AABBObject1, _AABBObject2, -minOverlap, separationNormal);
+		Respond(_AABBObject1, _AABBObject2, minOverlap, separationNormal);
 
 		return true;
 	}
