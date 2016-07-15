@@ -19,14 +19,18 @@ public:
 	virtual void Shutdown();
 	virtual bool Update();
 	virtual void Draw();
+	void DrawGrid();
+	void UpdateDT();
+
 
 	std::unique_ptr<PhysicsScene> m_PhysicsScene;
 	std::unique_ptr<Renderer> m_Renderer;
 	FlyCamera m_Camera;
 
-	// Spawning Physics Objects.
+	// Frame time.
+	float m_deltaTime;
+	float m_currentTime;
 	float m_lastFrameTime;
-	float m_spawnTimer;
 
 	std::default_random_engine m_Generator;
 	std::uniform_real_distribution<float> m_velocityDistribution;

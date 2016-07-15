@@ -15,10 +15,6 @@
 #include "Gizmos.h"
 
 #include <functional>
-#include <PxPhysicsAPI.h>
-
-#define Assert(val) if (val){}else{ *((char*)0) = 0;}
-#define ArrayCount(val) (sizeof(val)/sizeof(val[0]))
 
 bool PhysicsApplication::Startup()
 {
@@ -36,24 +32,17 @@ bool PhysicsApplication::Startup()
 	m_Renderer = std::make_unique<Renderer>();
 	m_PhysicsScene = std::make_unique<PhysicsScene>(vec3(70, 0, 0));
 
-	const float TableSize = 60;
-	const float BorderHeight = 15;
-
 	// Epic Physics Showcase.
 	m_PhysicsScene->SetGravity(glm::vec3(0.0, -9.8, 0.0f));
 
 	// Springs
 	auto sSphere = m_PhysicsScene->AddSphereStatic(vec3(0, 5, 0), 1); // static top.
 	auto dSphere = m_PhysicsScene->AddSphereDynamic(vec3(0, 0, 0), 1, 5, vec3(0, 0, 0));
-	m_PhysicsScene->AddSpring(sSphere, dSphere, 50, 10.0f, 10.0f);
+	m_PhysicsScene->AddSpring(sSphere, dSphere, 50, 5, 8);
 
 
 	// floor.
-	m_PhysicsScene->AddPlaneStatic(vec3(0, 1, 0), -1);
-
-	// setting up dt.
-	m_lastFrameTime = (float)glfwGetTime();
-	m_spawnTimer = 0;
+	m_PhysicsScene->AddPlaneStatic(vec3(0, 1, 0), -10);
 
 	return true;
 }
@@ -67,32 +56,19 @@ void PhysicsApplication::Shutdown()
 bool PhysicsApplication::Update()
 {
 	if (Application::Update() == false)
-	{
-		return false;
-	}
+	{return false;}
 
 	Gizmos::clear();
+	DrawGrid();
 
-	float currentTime = (float)glfwGetTime();
-	float deltaTime = currentTime - m_lastFrameTime;
-
-	if (deltaTime > 0.25f) deltaTime = 0.25f;
-
-	m_lastFrameTime = currentTime;
-
-	vec4 white(1);
-	vec4 black(0, 0, 0, 1);
-
-	for (int i = 0; i <= 20; ++i)
+	if (glfwGetKey(m_window, GLFW_KEY_SPACE) == GLFW_PRESS)
 	{
-		Gizmos::addLine(vec3(-10 + i, -0.01, -10), vec3(-10 + i, -0.01, 10),
-			i == 10 ? white : black);
-		Gizmos::addLine(vec3(-10, -0.01, -10 + i), vec3(10, -0.01, -10 + i),
-			i == 10 ? white : black);
+		m_PhysicsScene->AddSphereDynamic(vec3(0, 0, 0), 1, 5, vec3(0, 1, 0));
 	}
 
-	m_Camera.update(deltaTime);
-	m_PhysicsScene->Update(deltaTime);
+	UpdateDT();
+	m_Camera.update(m_deltaTime);
+	m_PhysicsScene->Update(m_deltaTime);
 
 
 	return true;
@@ -165,4 +141,26 @@ void PhysicsApplication::CreateAABBs(PhysicsScene* pPhysicsScene, int aabbCount,
 			);
 	}
 
+}
+
+void PhysicsApplication::DrawGrid()
+{
+	vec4 white(1);
+	vec4 black(0, 0, 0, 1);
+
+	for (int i = 0; i <= 20; ++i)
+	{
+		Gizmos::addLine(vec3(-10 + i, -0.01, -10), vec3(-10 + i, -0.01, 10),
+			i == 10 ? white : black);
+		Gizmos::addLine(vec3(-10, -0.01, -10 + i), vec3(10, -0.01, -10 + i),
+			i == 10 ? white : black);
+	}
+}
+
+void PhysicsApplication::UpdateDT()
+{
+	m_currentTime = (float)glfwGetTime();			// Set current time.
+	m_deltaTime = m_currentTime - m_lastFrameTime;	// Calculate delta.
+	if (m_deltaTime > 0.25f) m_deltaTime = 0.25f;	// Lock it to prevent crazy stuff.
+	m_lastFrameTime = m_currentTime;				// Set last frame time to current. repeat.
 }
