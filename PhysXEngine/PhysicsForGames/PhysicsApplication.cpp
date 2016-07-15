@@ -36,13 +36,13 @@ bool PhysicsApplication::Startup()
 	m_PhysicsScene->SetGravity(glm::vec3(0.0, -9.8, 0.0f));
 
 	// Springs
-	auto sSphere = m_PhysicsScene->AddSphereStatic(vec3(0, 5, 0), 1); // static top.
-	auto dSphere = m_PhysicsScene->AddSphereDynamic(vec3(0, 0, 0), 1, 5, vec3(0, 0, 0));
-	m_PhysicsScene->AddSpring(sSphere, dSphere, 50, 5, 8);
+	//auto sSphere = m_PhysicsScene->AddSphereStatic(vec3(0, 5, 0), 1); // static top.
+	//auto dSphere = m_PhysicsScene->AddSphereDynamic(vec3(0, 0, 0), 1, 5, vec3(0, 0, 0));
+	//m_PhysicsScene->AddSpring(sSphere, dSphere, 50, 5, 8);
 
 
 	// floor.
-	m_PhysicsScene->AddPlaneStatic(vec3(0, 1, 0), -10);
+	//m_PhysicsScene->AddPlaneStatic(vec3(0, 1, 0), -10);
 
 	return true;
 }
@@ -61,9 +61,16 @@ bool PhysicsApplication::Update()
 	Gizmos::clear();
 	DrawGrid();
 
-	if (glfwGetKey(m_window, GLFW_KEY_SPACE) == GLFW_PRESS)
+
+	static bool bPressed = false;
+	if (!bPressed && glfwGetKey(m_window, GLFW_KEY_SPACE) == GLFW_PRESS)
 	{
-		m_PhysicsScene->AddSphereDynamic(vec3(0, 0, 0), 1, 5, vec3(0, 1, 0));
+		m_PhysicsScene->AddSphereDynamic(vec3(5, 0, 0), 1, 5, vec3(0, 0, 0));
+		bPressed = true;
+	}
+	else if (glfwGetKey(m_window, GLFW_KEY_SPACE) != GLFW_PRESS)
+	{
+		bPressed = false;
 	}
 
 	UpdateDT();
