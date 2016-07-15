@@ -34,15 +34,24 @@ bool PhysicsApplication::Startup()
 
 	// Epic Physics Showcase.
 	m_PhysicsScene->SetGravity(glm::vec3(0.0, -9.8, 0.0f));
+	m_PhysicsScene->AddPlaneStatic(vec3(0, 1, 0), -10);
 
-	// Springs
-	//auto sSphere = m_PhysicsScene->AddSphereStatic(vec3(0, 5, 0), 1); // static top.
-	//auto dSphere = m_PhysicsScene->AddSphereDynamic(vec3(0, 0, 0), 1, 5, vec3(0, 0, 0));
-	//m_PhysicsScene->AddSpring(sSphere, dSphere, 50, 5, 8);
+	// table
+	m_PhysicsScene->AddAABBStatic(vec3(5, -5, 5), vec3(1, 5, 1));
+	m_PhysicsScene->AddAABBStatic(vec3(-5, -5, 5), vec3(1, 5, 1));
+	m_PhysicsScene->AddAABBStatic(vec3(-5, -5, -5), vec3(1, 5, 1));
+	m_PhysicsScene->AddAABBStatic(vec3(5, -5, -5), vec3(1, 5, 1));
 
+	m_PhysicsScene->AddAABBStatic(vec3(0, -1, 0), vec3(6, 1, 6));
 
-	// floor.
-	//m_PhysicsScene->AddPlaneStatic(vec3(0, 1, 0), -10);
+	// cubes
+	m_PhysicsScene->AddAABBDynamic(vec3(0, 2, 0), vec3(1, 1, 1), 5, vec3(0));
+	m_PhysicsScene->AddAABBDynamic(vec3(0, 2, 3), vec3(1, 1, 1), 5, vec3(0));
+	m_PhysicsScene->AddAABBDynamic(vec3(2, 2, -1), vec3(1, 1, 1), 5, vec3(0));
+
+	// Rope w/ spring physics.
+	MakeRope(5);
+	
 
 	return true;
 }
@@ -62,10 +71,11 @@ bool PhysicsApplication::Update()
 	DrawGrid();
 
 
+	//CANNON!
 	static bool bPressed = false;
 	if (!bPressed && glfwGetKey(m_window, GLFW_KEY_SPACE) == GLFW_PRESS)
 	{
-		m_PhysicsScene->AddSphereDynamic(vec3(5, 0, 0), 1, 5, vec3(0, 0, 0));
+		m_PhysicsScene->AddSphereDynamic(vec3(m_Camera.world[3]), 1.0f, 1.0f, vec3(m_Camera.world[2]) * -25.0f);
 		bPressed = true;
 	}
 	else if (glfwGetKey(m_window, GLFW_KEY_SPACE) != GLFW_PRESS)
@@ -125,7 +135,8 @@ void PhysicsApplication::CreateSpheres(PhysicsScene* pPhysicsScene, int sphereCo
 {
 	auto randVel = std::bind(m_velocityDistribution, m_Generator);
 
-	for (int i = 0; i < sphereCount; i++) {
+	for (int i = 0; i < sphereCount; i++) 
+	{
 		float mass = m_massDistribution(m_Generator);
 		pPhysicsScene->AddSphereDynamic(
 			glm::vec3(-20 + i*spacing, 2 + i, -20 + i*spacing),		// Position
@@ -140,7 +151,8 @@ void PhysicsApplication::CreateSpheres(PhysicsScene* pPhysicsScene, int sphereCo
 void PhysicsApplication::CreateAABBs(PhysicsScene* pPhysicsScene, int aabbCount, float spacing)
 {
 	auto randVel = std::bind(m_velocityDistribution, m_Generator);
-	for (int i = 0; i < aabbCount; i++) {
+	for (int i = 0; i < aabbCount; i++) 
+	{
 		pPhysicsScene->AddAABBDynamic(
 			glm::vec3(-20 + i*spacing, 6 + i, -20 + i*spacing),	// Position
 			glm::vec3(1, 1, 1),									// Extents
@@ -170,4 +182,22 @@ void PhysicsApplication::UpdateDT()
 	m_deltaTime = m_currentTime - m_lastFrameTime;	// Calculate delta.
 	if (m_deltaTime > 0.25f) m_deltaTime = 0.25f;	// Lock it to prevent crazy stuff.
 	m_lastFrameTime = m_currentTime;				// Set last frame time to current. repeat.
+}
+
+void PhysicsApplication::MakeRope(int length)
+{
+	auto sSphere = m_PhysicsScene->AddSphereStatic(vec3(0, 10, 0), 1); // static top.
+	std::shared_ptr<PhysicsObject> previousSphere;
+	previousSphere = sSphere;
+
+	for (int i = 0; i < length; i++)
+	{
+		vec3 newpos(previousSphere->GetPosition().x, previousSphere->GetPosition().y - 1, previousSphere->GetPosition().z);
+		auto newSphere = m_PhysicsScene->AddSphereDynamic(newpos, 0.25, 5, vec3(0, 0, 0));
+		m_PhysicsScene->AddSpring(previousSphere, newSphere, 200, 50, 0.5f);
+
+		previousSphere = newSphere;
+	}
+
+	
 }

@@ -19,6 +19,7 @@ public:
 	virtual void Shutdown();
 	virtual bool Update();
 	virtual void Draw();
+	void MakeRope(int length);
 	void DrawGrid();
 	void UpdateDT();
 

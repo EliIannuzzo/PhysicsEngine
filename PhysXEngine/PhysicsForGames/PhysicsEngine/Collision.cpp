@@ -42,6 +42,7 @@ void Respond(PhysicsObject* _object1, PhysicsObject* _object2, float overlap, ve
 bool Collision::Detect(PhysicsObject* _object1, PhysicsObject* _object2)
 {
 	if (_object1->GetShape() == nullptr || _object2->GetShape() == nullptr) return false;
+	if (_object1->HasRigidbody() == false && _object2->HasRigidbody() == false) return false;
 
 	int shape1_ID = _object1->GetShape()->GetShapeType();
 	int shape2_ID = _object2->GetShape()->GetShapeType();
@@ -53,13 +54,13 @@ bool Collision::Detect(PhysicsObject* _object1, PhysicsObject* _object2)
 	switch (collisionFunctionIndex)
 	{
 	case 0:
-		PlaneToSphere(_object1, _object2);
+		PlaneToPlane(_object1, _object2);
 		break;
 	case 1:
-		PlaneToAABB(_object1, _object2);
+		PlaneToSphere(_object1, _object2);
 		break;
 	case 2:
-		PlaneToPlane(_object1, _object2);
+		PlaneToAABB(_object1, _object2);
 		break;
 	case 3:
 		SphereToPlane(_object1, _object2);
@@ -127,8 +128,8 @@ bool Collision::PlaneToAABB(PhysicsObject* _planeObject, PhysicsObject* _AABBObj
 	vec3 minPos = AABBPos - pAABB->GetSize();
 	vec3 maxPos = AABBPos + pAABB->GetSize();
 
-	float minPointToDistanceAlongPlaneNormal = dot(minPos, pPlane->GetNormal());
-	float maxPointToDistanceAlongPlaneNormal = dot(maxPos, pPlane->GetNormal());
+	float minPointToDistanceAlongPlaneNormal = dot(minPos, pPlane->GetNormal()) - pPlane->GetDistance();
+	float maxPointToDistanceAlongPlaneNormal = dot(maxPos, pPlane->GetNormal()) - pPlane->GetDistance();
 
 	float overlap = std::min(minPointToDistanceAlongPlaneNormal, maxPointToDistanceAlongPlaneNormal);
 
@@ -149,7 +150,7 @@ bool Collision::PlaneToPlane(PhysicsObject* _planeObject1, PhysicsObject* _plane
 // ----- Sphere collisions -----
 bool Collision::SphereToPlane(PhysicsObject* _sphereObject, PhysicsObject* _planeObject)
 {
-	return PlaneToSphere(_planeObject, _sphereObject);
+ 	return PlaneToSphere(_planeObject, _sphereObject);
 }
 
 bool Collision::SphereToSphere(PhysicsObject* _sphereObject1, PhysicsObject* _sphereObject2)
@@ -243,8 +244,8 @@ bool Collision::AABBToAABB(PhysicsObject* _AABBObject1, PhysicsObject* _AABBObje
 	if (xOverlap <= 0 && yOverlap <= 0 && zOverlap <= 0)
 	{
 		float minOverlap = xOverlap;
-		minOverlap = yOverlap < 0 ? std::max(minOverlap, yOverlap) : minOverlap;
-		minOverlap = zOverlap < 0 ? std::max(minOverlap, zOverlap) : minOverlap;
+		minOverlap = yOverlap <= 0 ? std::max(minOverlap, yOverlap) : minOverlap;
+		minOverlap = zOverlap <= 0 ? std::max(minOverlap, zOverlap) : minOverlap;
 
 		glm::vec3 separationNormal(0);
 
